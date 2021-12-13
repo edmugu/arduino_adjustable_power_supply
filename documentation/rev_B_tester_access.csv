@@ -1,0 +1,42 @@
+pcie connector used for testing porpuses,,,
+,,,
+pin ,side,description,use on this project
+1,b,12 V power,VIN
+2,b,12 V power,VIN
+3,b,12 V power,VIN
+4,b,Ground,ground
+5,b,smclk,i2c
+6,b,smdat,i2c
+7,b,Ground,ground
+8,b,3.3 V power,VOUT
+9,b,trst#,test point voltage
+10,b,3.3 V power,VOUT
+11,b,WAKE,chip select
+,,key notch,
+12,b,clkreg#,NA
+13,b,Ground,ground
+14,b,hsop,NA
+15,b,hson,NA
+16,b,Ground,ground
+17,b,prsnt,preset
+18,b,Ground,ground
+,,pciex1 end,
+1,a,prsnt,present
+2,a,12 V power,VIN
+3,a,12 V power,VIN
+4,a,Ground,ground
+5,a,tck,test point voltage
+6,a,tdi,test point voltage
+7,a,tdo,test point voltage
+8,a,tms,test point voltage
+9,a,3.3 V power,VOUT
+10,a,3.3 V power,VOUT
+11,a,perst,Reset / disable
+,,key notch,
+12,a,Ground,ground
+13,a,refclk,sense line for vout
+14,a,refclk,sense line for vout
+15,a,Ground,ground
+16,a,hsip,NA
+17,a,hsin,NA
+18,a,Ground,ground

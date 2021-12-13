@@ -1,0 +1,134 @@
+    public void loadComposite(StringTokenizer stIn, String model, int externalNodes[]) {
+	HashMap<Integer, CircuitNode> compNodeHash = new HashMap<Integer, CircuitNode>();
+	StringTokenizer modelLinet = new StringTokenizer(model, "\r");
+	CircuitNode cn;
+	CircuitNodeLink cnLink;
+	VoltageSourceRecord vsRecord;
+
+	compElmList = new Vector<CircuitElm>();
+	compNodeList = new Vector<CircuitNode>();
+	voltageSources = new Vector<VoltageSourceRecord>();
+
+	// Build compElmList and compNodeHash from input string
+
+	while (modelLinet.hasMoreTokens()) {
+	    String line = modelLinet.nextToken();
+	    StringTokenizer stModel = new StringTokenizer(line, " +\t\n\r\f");
+	    String ceType = stModel.nextToken();
+	    CircuitElm newce = CirSim.constructElement(ceType, 0, 0);
+	    if (stIn!=null) {
+		int tint = newce.getDumpType();
+		String dumpedCe= stIn.nextToken();
+		if (useEscape())
+		    dumpedCe = CustomLogicModel.unescape(dumpedCe);
+		StringTokenizer stCe = new StringTokenizer(dumpedCe, useEscape() ? " " : "_");
+		int flags = new Integer(stCe.nextToken()).intValue();
+		newce = CirSim.createCe(tint, 0, 0, 0, 0, flags, stCe);
+	    }
+	    compElmList.add(newce);
+
+	    int thisPost = 0;
+	    while (stModel.hasMoreTokens()) {
+		int nodeOfThisPost = new Integer(stModel.nextToken()).intValue();
+
+		// node = 0 means ground
+		if (nodeOfThisPost == 0) {
+		    newce.setNode(thisPost, 0);
+		    newce.setNodeVoltage(thisPost, 0);
+		    thisPost++;
+		    continue;
+		}
+		cnLink = new CircuitNodeLink();
+		cnLink.num = thisPost;
+		cnLink.elm = newce;
+		if (!compNodeHash.containsKey(nodeOfThisPost)) {
+		    cn = new CircuitNode();
+		    cn.links.add(cnLink);
+		    compNodeHash.put(nodeOfThisPost, cn);
+		} else {
+		    cn = compNodeHash.get(nodeOfThisPost);
+		    cn.links.add(cnLink);
+		}
+		thisPost++;
+	    }
+	}
+
+	// Flatten compNodeHash in to compNodeList
+	numPosts = externalNodes.length;
+	for (int i = 0; i < externalNodes.length; i++) { // External Nodes First
+	    if (compNodeHash.containsKey(externalNodes[i])) {
+		compNodeList.add(compNodeHash.get(externalNodes[i]));
+		compNodeHash.remove(externalNodes[i]);
+	    } else
+		throw new IllegalArgumentException();
+	}
+	for (Entry<Integer, CircuitNode> entry : compNodeHash.entrySet()) {
+	    int key = entry.getKey();
+	    compNodeList.add(compNodeHash.get(key));
+	}
+
+	// allocate more nodes for sub-elements' internal nodes
+	for (int i = 0; i != compElmList.size(); i++) {
+	    CircuitElm ce = compElmList.get(i);
+	    int inodes = ce.getInternalNodeCount();
+	    for (int j = 0; j != inodes; j++) {
+		cnLink = new CircuitNodeLink();
+		cnLink.num = j + ce.getPostCount();
+		cnLink.elm = ce;
+		cn = new CircuitNode();
+		cn.links.add(cnLink);
+		compNodeList.add(cn);
+	    }
+	}
+
+	numNodes = compNodeList.size();
+
+//	CirSim.console("Dumping compNodeList");
+//	for (int i = 0; i < numNodes; i++) {
+//	    CirSim.console("New node" + i + " Size of links:" + compNodeList.get(i).links.size());
+//	}
+
+	posts = new Point[numPosts];
+	
+	// Enumerate voltage sources
+	for (int i = 0; i < compElmList.size(); i++) {
+	    int cnt = compElmList.get(i).getVoltageSourceCount();
+	    for (int j=0;j < cnt ; j++) {
+		vsRecord = new VoltageSourceRecord();
+		vsRecord.elm = compElmList.get(i);
+		vsRecord.vsNumForElement = j;
+		voltageSources.add(vsRecord);
+	    }
+	}
+	
+	// dump new circuits with escape()
+	flags |= FLAG_ESCAPE;
+    }
+
+    // Find the component with the nth voltage
+    // and set the
+    // appropriate source in that component
+    void setVoltageSource(int n, int v) {
+	// voltSource(n) = v;
+	VoltageSourceRecord vsr;
+	vsr=voltageSources.get(n);
+	vsr.elm.setVoltageSource(vsr.vsNumForElement, v);
+	vsr.vsNode=v;
+    }
+    
+    @Override
+     public void   setCurrent(int vsn, double c) {
+	for (int i=0;i<voltageSources.size(); i++)
+	    if (voltageSources.get(i).vsNode == vsn) {
+		voltageSources.get(i).elm.setCurrent(vsn, c);
+	    }
+	
+    }
+}
+
+
+class VoltageSourceRecord {
+	int vsNumForElement;
+	int vsNode;
+	CircuitElm elm;
+}

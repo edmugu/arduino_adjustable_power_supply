@@ -1,0 +1,21 @@
+title: Arduino Power Supply
+description: Arduino Power Supply
+baseurl: "/arduino_adjustable_power_supply" # the subpath of your site, e.g. /blog
+url: "https://edmugu.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+remote_theme: pmarsceill/just-the-docs
+
+
+
+
+# Aux links for the upper right navigation
+aux_links:
+  "Link to GitHub":
+    - "//github.com/edmugu/arduino_adjustable_power_supply"
+
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: false
+
+
+# Footer last edited timestamp
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html

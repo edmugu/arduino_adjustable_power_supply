@@ -1,0 +1,64 @@
+diff --git a/src/com/lushprojects/circuitjs1/client/CCVSElm.java b/src/com/lushprojects/circuitjs1/client/CCVSElm.java
+index 496d62d..ee16e8a 100644
+--- a/src/com/lushprojects/circuitjs1/client/CCVSElm.java
++++ b/src/com/lushprojects/circuitjs1/client/CCVSElm.java
+@@ -19,7 +19,9 @@
+ 
+ package com.lushprojects.circuitjs1.client;
+ 
+-    class CCVSElm extends VCCSElm {
++import java.util.Vector;
++
++class CCVSElm extends VCCSElm {
+ 	public CCVSElm(int xa, int ya, int xb, int yb, int f,
+ 		      StringTokenizer st) {
+ 	    super(xa, ya, xb, yb, f, st);
+@@ -128,5 +130,14 @@ package com.lushprojects.circuitjs1.client;
+         	return null;
+             return super.getEditInfo(n);
+         }
++        
++        void setParentList(Vector<CircuitElm> elmList) {
++            int i, j;
++            for (i = 0; i != pins.)
++            for (i = 0; i != elmList.size(); i++) {
++        	
++            }
++        }
++        
+     }
+ 
+diff --git a/src/com/lushprojects/circuitjs1/client/CircuitElm.java b/src/com/lushprojects/circuitjs1/client/CircuitElm.java
+index ec7d8f8..6dbb623 100644
+--- a/src/com/lushprojects/circuitjs1/client/CircuitElm.java
++++ b/src/com/lushprojects/circuitjs1/client/CircuitElm.java
+@@ -19,6 +19,8 @@
+ 
+ package com.lushprojects.circuitjs1.client;
+ 
++import java.util.Vector;
++
+ import com.google.gwt.canvas.dom.client.CanvasGradient;
+ import com.google.gwt.canvas.dom.client.Context2d.LineCap;
+ import com.google.gwt.i18n.client.NumberFormat;
+@@ -187,6 +189,8 @@ public abstract class CircuitElm implements Editable {
+     // get current for one- or two-terminal elements
+     double getCurrent() { return current; }
+ 
++    void setParentList(Vector<CircuitElm> elmList) {}
++    
+     // stamp matrix values for linear elements.
+     // for non-linear elements, use this to stamp values that don't change each iteration, and call stampRightSide() or stampNonLinear() as needed
+     void stamp() {}
+diff --git a/src/com/lushprojects/circuitjs1/client/CompositeElm.java b/src/com/lushprojects/circuitjs1/client/CompositeElm.java
+index 3fe3a96..002285b 100644
+--- a/src/com/lushprojects/circuitjs1/client/CompositeElm.java
++++ b/src/com/lushprojects/circuitjs1/client/CompositeElm.java
+@@ -308,6 +308,7 @@ public abstract class CompositeElm extends CircuitElm {
+     public void stamp() {
+ 	for (int i = 0; i < compElmList.size(); i++) {
+ 	    CircuitElm ce = compElmList.get(i);
++	    ce.setParentList(compElmList);
+ 	    ce.stamp();
+ 	}
+     }

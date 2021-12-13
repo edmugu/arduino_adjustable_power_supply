@@ -1,0 +1,31 @@
+opamp:
+
+ - = 0
+ + = 1
+ out = 2
+
+            int vn = sim.nodeList.size()+voltSource;
+            sim.stampMatrix(nodes[2], vn, 1);
+            sim.stampMatrix(vn, nodes[0], dx);
+            sim.stampMatrix(vn, nodes[1], -dx);
+            sim.stampMatrix(vn, nodes[2], 1);
+            sim.stampRightSide(vn, rs);
+
+vcvs:
+
+  0 = -
+  1 = +
+  2 = out
+  3 = gnd
+
+            sim.stampVoltageSource(nodes[inputCount+1]=0, nodes[inputCount], pins[inputCount].voltSource);
+             stasmpMatrix(vn, n2, 1);
+              stampMatrix(n2, vn, -1);
+
+        	double rs = v0;
+        	
+        	// calculate and stamp output derivatives
+        	for (i = 0; i != inputCount; i++) {
+        	    sim.stampMatrix(vn,  nodes[i], -dx);
+        	    rs -= dx*volts[i];
+        	sim.stampRightSide(vn, rs);

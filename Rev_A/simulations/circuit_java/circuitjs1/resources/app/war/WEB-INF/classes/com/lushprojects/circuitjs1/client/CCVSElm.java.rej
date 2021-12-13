@@ -1,0 +1,22 @@
+***************
+*** 128,132 ****
+          	return null;
+              return super.getEditInfo(n);
+          }
+      }
+  
+--- 130,143 ----
+          	return null;
+              return super.getEditInfo(n);
+          }
++         
++         void setParentList(Vector<CircuitElm> elmList) {
++             int i, j;
++             for (i = 0; i != pins.)
++             for (i = 0; i != elmList.size(); i++) {
++         	
++             }
++         }
++         
+      }
+  

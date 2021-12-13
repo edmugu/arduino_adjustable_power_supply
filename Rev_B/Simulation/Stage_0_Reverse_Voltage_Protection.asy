@@ -1,0 +1,20 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal 192 80 -176 -128
+TEXT -95 -106 Left 2 Reverse_Voltage
+TEXT -66 -81 Left 2 Protection
+PIN -176 -48 LEFT 8
+PINATTR PinName Vin
+PINATTR SpiceOrder 1
+PIN -176 -16 LEFT 8
+PINATTR PinName SHDN_N
+PINATTR SpiceOrder 2
+PIN 0 80 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 3
+PIN 192 -48 RIGHT 8
+PINATTR PinName Vout
+PINATTR SpiceOrder 4
+PIN 192 -16 RIGHT 8
+PINATTR PinName FAULT_N
+PINATTR SpiceOrder 5

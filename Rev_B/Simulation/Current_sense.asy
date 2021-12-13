@@ -1,0 +1,19 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal -176 -272 192 81
+TEXT -81 -239 Left 2 Current Sense
+PIN -176 -48 LEFT 8
+PINATTR PinName Vin
+PINATTR SpiceOrder 1
+PIN 0 80 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 2
+PIN 192 -48 RIGHT 8
+PINATTR PinName Vout
+PINATTR SpiceOrder 3
+PIN -176 -80 LEFT 8
+PINATTR PinName Sense_p
+PINATTR SpiceOrder 4
+PIN -176 -208 LEFT 8
+PINATTR PinName Sense_n
+PINATTR SpiceOrder 5

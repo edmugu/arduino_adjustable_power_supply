@@ -1,0 +1,464 @@
+    void analyzeCircuit() {
+	if (elmList.isEmpty()) {
+	    postDrawList = new Vector<Point>();
+	    badConnectionList = new Vector<Point>();
+	    return;
+	}
+	stopMessage = null;
+	stopElm = null;
+	int i, j;
+	int vscount = 0;
+	nodeList = new Vector<CircuitNode>();
+	postCountMap = new HashMap<Point,Integer>();
+	boolean gotGround = false;
+	boolean gotRail = false;
+	CircuitElm volt = null;
+
+	calculateWireClosure();
+	
+	//System.out.println("ac1");
+	// look for voltage or ground element
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    if (ce instanceof GroundElm) {
+		gotGround = true;
+		break;
+	    }
+	    if (ce instanceof RailElm)
+	    	gotRail = true;
+	    if (volt == null && ce instanceof VoltageElm)
+	    	volt = ce;
+	}
+
+	// if no ground, and no rails, then the voltage elm's first terminal
+	// is ground
+	if (!gotGround && volt != null && !gotRail) {
+	    CircuitNode cn = new CircuitNode();
+	    Point pt = volt.getPost(0);
+	    nodeList.addElement(cn);
+
+	    // update node map
+	    NodeMapEntry cln = nodeMap.get(pt);
+	    if (cln != null)
+		cln.node = 0;
+	    else
+		nodeMap.put(pt, new NodeMapEntry(0));
+	} else {
+	    // otherwise allocate extra node for ground
+	    CircuitNode cn = new CircuitNode();
+	    nodeList.addElement(cn);
+	}
+	//System.out.println("ac2");
+
+	// allocate nodes and voltage sources
+	LabeledNodeElm.resetNodeList();
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    int inodes = ce.getInternalNodeCount();
+	    int ivs = ce.getVoltageSourceCount();
+	    int posts = ce.getPostCount();
+	    
+	    // allocate a node for each post and match posts to nodes
+	    for (j = 0; j != posts; j++) {
+		Point pt = ce.getPost(j);
+		Integer g = postCountMap.get(pt);
+		postCountMap.put(pt, g == null ? 1 : g+1);
+		NodeMapEntry cln = nodeMap.get(pt);
+		
+		// is this node not in map yet?  or is the node number unallocated?
+		// (we don't allocate nodes before this because changing the allocation order
+		// of nodes changes circuit behavior and breaks backward compatibility;
+		// the code below to connect unconnected nodes may connect a different node to ground) 
+		if (cln == null || cln.node == -1) {
+		    CircuitNode cn = new CircuitNode();
+		    CircuitNodeLink cnl = new CircuitNodeLink();
+		    cnl.num = j;
+		    cnl.elm = ce;
+		    cn.links.addElement(cnl);
+		    ce.setNode(j, nodeList.size());
+		    if (cln != null)
+			cln.node = nodeList.size();
+		    else
+			nodeMap.put(pt, new NodeMapEntry(nodeList.size()));
+		    nodeList.addElement(cn);
+		} else {
+		    int n = cln.node;
+		    CircuitNodeLink cnl = new CircuitNodeLink();
+		    cnl.num = j;
+		    cnl.elm = ce;
+		    getCircuitNode(n).links.addElement(cnl);
+		    ce.setNode(j, n);
+		    // if it's the ground node, make sure the node voltage is 0,
+		    // cause it may not get set later
+		    if (n == 0)
+			ce.setNodeVoltage(j, 0);
+		}
+	    }
+	    for (j = 0; j != inodes; j++) {
+		CircuitNode cn = new CircuitNode();
+		cn.internal = true;
+		CircuitNodeLink cnl = new CircuitNodeLink();
+		cnl.num = j+posts;
+		cnl.elm = ce;
+		cn.links.addElement(cnl);
+		ce.setNode(cnl.num, nodeList.size());
+		nodeList.addElement(cn);
+	    }
+	    vscount += ivs;
+	}
+	
+	makePostDrawList();
+	if (!calcWireInfo())
+	    return;
+	nodeMap = null; // done with this
+	
+	voltageSources = new CircuitElm[vscount];
+	vscount = 0;
+	circuitNonLinear = false;
+	//System.out.println("ac3");
+
+	// determine if circuit is nonlinear
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    if (ce.nonLinear())
+		circuitNonLinear = true;
+	    int ivs = ce.getVoltageSourceCount();
+	    for (j = 0; j != ivs; j++) {
+		voltageSources[vscount] = ce;
+		ce.setVoltageSource(j, vscount++);
+	    }
+	}
+	voltageSourceCount = vscount;
+
+	int matrixSize = nodeList.size()-1 + vscount;
+	circuitMatrix = new double[matrixSize][matrixSize];
+	circuitRightSide = new double[matrixSize];
+	origMatrix = new double[matrixSize][matrixSize];
+	origRightSide = new double[matrixSize];
+	circuitMatrixSize = circuitMatrixFullSize = matrixSize;
+	circuitRowInfo = new RowInfo[matrixSize];
+	circuitPermute = new int[matrixSize];
+	for (i = 0; i != matrixSize; i++)
+	    circuitRowInfo[i] = new RowInfo();
+	circuitNeedsMap = false;
+	
+	// stamp linear circuit elements
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    ce.stamp();
+	}
+	//System.out.println("ac4");
+
+	// determine nodes that are not connected indirectly to ground
+	boolean closure[] = new boolean[nodeList.size()];
+	boolean changed = true;
+	closure[0] = true;
+	while (changed) {
+	    changed = false;
+	    for (i = 0; i != elmList.size(); i++) {
+		CircuitElm ce = getElm(i);
+		if (ce instanceof WireElm)
+		    continue;
+		// loop through all ce's nodes to see if they are connected
+		// to other nodes not in closure
+		for (j = 0; j < ce.getConnectionNodeCount(); j++) {
+		    if (!closure[ce.getConnectionNode(j)]) {
+			if (ce.hasGroundConnection(j))
+			    closure[ce.getConnectionNode(j)] = changed = true;
+			continue;
+		    }
+		    int k;
+		    for (k = 0; k != ce.getConnectionNodeCount(); k++) {
+			if (j == k)
+			    continue;
+			int kn = ce.getConnectionNode(k);
+			if (ce.getConnection(j, k) && !closure[kn]) {
+			    closure[kn] = true;
+			    changed = true;
+			}
+		    }
+		}
+	    }
+	    if (changed)
+		continue;
+
+	    // connect one of the unconnected nodes to ground with a big resistor, then try again
+	    for (i = 0; i != nodeList.size(); i++)
+		if (!closure[i] && !getCircuitNode(i).internal) {
+		    console("node " + i + " unconnected");
+		    stampResistor(0, i, 1e8);
+		    closure[i] = true;
+		    changed = true;
+		    break;
+		}
+	}
+	//System.out.println("ac5");
+
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    // look for inductors with no current path
+	    if (ce instanceof InductorElm) {
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
+						    ce.getNode(1));
+		if (!fpi.findPath(ce.getNode(0))) {
+//		    console(ce + " no path");
+		    ce.reset();
+		}
+	    }
+	    // look for current sources with no current path
+	    if (ce instanceof CurrentElm) {
+		CurrentElm cur = (CurrentElm) ce;
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
+						    ce.getNode(1));
+		if (!fpi.findPath(ce.getNode(0))) {
+		    cur.stampCurrentSource(true);
+		} else
+		    cur.stampCurrentSource(false);
+	    }
+	    if (ce instanceof VCCSElm) {
+		VCCSElm cur = (VCCSElm) ce;
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
+						    cur.getOutputNode(0));
+		if (cur.hasCurrentOutput() && !fpi.findPath(cur.getOutputNode(1))) {
+		    cur.broken = true;
+		} else
+		    cur.broken = false;
+	    }
+	    
+	    // look for voltage source or wire loops.  we do this for voltage sources or wire-like elements (not actual wires
+	    // because those are optimized out, so the findPath won't work)
+	    if (ce.getPostCount() == 2) {
+		if (ce instanceof VoltageElm || (ce.isWire() && !(ce instanceof WireElm))) {
+		    FindPathInfo fpi = new FindPathInfo(FindPathInfo.VOLTAGE, ce,
+						    ce.getNode(1));
+		    if (fpi.findPath(ce.getNode(0))) {
+			stop("Voltage source/wire loop with no resistance!", ce);
+			return;
+		    }
+		}
+	    } else if (ce instanceof Switch2Elm) {
+		// for Switch2Elms we need to do extra work to look for wire loops
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.VOLTAGE, ce, ce.getNode(0));
+		for (j = 1; j < ce.getPostCount(); j++)
+		    if (ce.getConnection(0, j) && fpi.findPath(ce.getNode(j))) {
+			stop("Voltage source/wire loop with no resistance!", ce);
+			return;
+		    }
+	    }
+
+	    // look for path from rail to ground
+	    if (ce instanceof RailElm || ce instanceof LogicInputElm) {
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.VOLTAGE, ce,
+			    ce.getNode(0));
+		if (fpi.findPath(0)) {
+		    stop("Path to ground with no resistance!", ce);
+		    return;
+		}
+	    }
+	    
+	    // look for shorted caps, or caps w/ voltage but no R
+	    if (ce instanceof CapacitorElm) {
+		FindPathInfo fpi = new FindPathInfo(FindPathInfo.SHORT, ce,
+						    ce.getNode(1));
+		if (fpi.findPath(ce.getNode(0))) {
+		    console(ce + " shorted");
+		    ((CapacitorElm) ce).shorted();
+		} else {
+		    // a capacitor loop used to cause a matrix error. but we changed the capacitor model
+		    // so it works fine now. The only issue is if a capacitor is added in parallel with
+		    // another capacitor with a nonzero voltage; in that case we will get oscillation unless
+		    // we reset both capacitors to have the same voltage. Rather than check for that, we just
+		    // give an error.
+		    fpi = new FindPathInfo(FindPathInfo.CAP_V, ce, ce.getNode(1));
+		    if (fpi.findPath(ce.getNode(0))) {
+			stop("Capacitor loop with no resistance!", ce);
+			return;
+		    }
+		}
+	    }
+	}
+	//System.out.println("ac6");
+
+	if (!simplifyMatrix(matrixSize))
+	    return;
+	
+	/*
+	System.out.println("matrixSize = " + matrixSize + " " + circuitNonLinear);
+	for (j = 0; j != circuitMatrixSize; j++) {
+	    for (i = 0; i != circuitMatrixSize; i++)
+		System.out.print(circuitMatrix[j][i] + " ");
+	    System.out.print("  " + circuitRightSide[j] + "\n");
+	}
+	System.out.print("\n");*/
+
+	// check if we called stop()
+	if (circuitMatrix == null)
+	    return;
+	
+	// if a matrix is linear, we can do the lu_factor here instead of
+	// needing to do it every frame
+	if (!circuitNonLinear) {
+	    if (!lu_factor(circuitMatrix, circuitMatrixSize, circuitPermute)) {
+		stop("Singular matrix!", null);
+		return;
+	    }
+	}
+	
+	// show resistance in voltage sources if there's only one
+	boolean gotVoltageSource = false;
+	showResistanceInVoltageSources = true;
+	for (i = 0; i != elmList.size(); i++) {
+	    CircuitElm ce = getElm(i);
+	    if (ce instanceof VoltageElm) {
+		if (gotVoltageSource)
+		    showResistanceInVoltageSources = false;
+		else
+		    gotVoltageSource = true;
+	    }
+	}
+
+    }
+
+    void runCircuit(boolean didAnalyze) {
+	if (circuitMatrix == null || elmList.size() == 0) {
+	    circuitMatrix = null;
+	    return;
+	}
+	int iter;
+	//int maxIter = getIterCount();
+	boolean debugprint = dumpMatrix;
+	dumpMatrix = false;
+	long steprate = (long) (160*getIterCount());
+	long tm = System.currentTimeMillis();
+	long lit = lastIterTime;
+	if (lit == 0) {
+	    lastIterTime = tm;
+	    return;
+	}
+	
+	// Check if we don't need to run simulation (for very slow simulation speeds).
+	// If the circuit changed, do at least one iteration to make sure everything is consistent.
+	if (1000 >= steprate*(tm-lastIterTime) && !didAnalyze)
+	    return;
+	
+	boolean delayWireProcessing = canDelayWireProcessing();
+	
+	for (iter = 1; ; iter++) {
+	    int i, j, k, subiter;
+	    for (i = 0; i != elmList.size(); i++) {
+		CircuitElm ce = getElm(i);
+		ce.startIteration();
+	    }
+	    steps++;
+	    final int subiterCount = 5000;
+	    for (subiter = 0; subiter != subiterCount; subiter++) {
+		converged = true;
+		subIterations = subiter;
+		for (i = 0; i != circuitMatrixSize; i++)
+		    circuitRightSide[i] = origRightSide[i];
+		if (circuitNonLinear) {
+		    for (i = 0; i != circuitMatrixSize; i++)
+			for (j = 0; j != circuitMatrixSize; j++)
+			    circuitMatrix[i][j] = origMatrix[i][j];
+		}
+		for (i = 0; i != elmList.size(); i++) {
+		    CircuitElm ce = getElm(i);
+		    ce.doStep();
+		}
+		if (stopMessage != null)
+		    return;
+		boolean printit = debugprint;
+		debugprint = false;
+		for (j = 0; j != circuitMatrixSize; j++) {
+		    for (i = 0; i != circuitMatrixSize; i++) {
+			double x = circuitMatrix[i][j];
+			if (Double.isNaN(x) || Double.isInfinite(x)) {
+			    stop("nan/infinite matrix!", null);
+			    console("circuitMatrix " + i + " " + j + " is " + x);
+			    return;
+			}
+		    }
+		}
+		if (printit) {
+		    for (j = 0; j != circuitMatrixSize; j++) {
+			String x = "";
+			for (i = 0; i != circuitMatrixSize; i++)
+			    x += circuitMatrix[j][i] + ",";
+			x += "\n";
+			console(x);
+		    }
+		    console("done");
+		}
+		if (circuitNonLinear) {
+		    if (converged && subiter > 0)
+			break;
+		    if (!lu_factor(circuitMatrix, circuitMatrixSize,
+				  circuitPermute)) {
+			stop("Singular matrix!", null);
+			return;
+		    }
+		}
+		lu_solve(circuitMatrix, circuitMatrixSize, circuitPermute,
+			 circuitRightSide);
+		
+		for (j = 0; j != circuitMatrixFullSize; j++) {
+		    RowInfo ri = circuitRowInfo[j];
+		    double res = 0;
+		    if (ri.type == RowInfo.ROW_CONST)
+			res = ri.value;
+		    else
+			res = circuitRightSide[ri.mapCol];
+		    /*System.out.println(j + " " + res + " " +
+		      ri.type + " " + ri.mapCol);*/
+		    if (Double.isNaN(res)) {
+			converged = false;
+			//debugprint = true;
+			break;
+		    }
+		    if (j < nodeList.size()-1) {
+			CircuitNode cn = getCircuitNode(j+1);
+			for (k = 0; k != cn.links.size(); k++) {
+			    CircuitNodeLink cnl = (CircuitNodeLink)
+				cn.links.elementAt(k);
+			    cnl.elm.setNodeVoltage(cnl.num, res);
+			}
+		    } else {
+			int ji = j-(nodeList.size()-1);
+			//System.out.println("setting vsrc " + ji + " to " + res);
+			voltageSources[ji].setCurrent(ji, res);
+		    }
+		}
+		if (!circuitNonLinear)
+		    break;
+	    }
+	    if (subiter > 5)
+		console("converged after " + subiter + " iterations\n");
+	    if (subiter == subiterCount) {
+		stop("Convergence failed!", null);
+		break;
+	    }
+	    t += timeStep;
+	    for (i = 0; i != elmList.size(); i++)
+		getElm(i).stepFinished();
+	    if (!delayWireProcessing)
+		calcWireCurrents();
+	    for (i = 0; i != scopeCount; i++)
+	    	scopes[i].timeStep();
+	    for (i=0; i != elmList.size(); i++)
+		if (getElm(i) instanceof ScopeElm )
+		    ((ScopeElm)getElm(i)).stepScope();
+		
+	    tm = System.currentTimeMillis();
+	    lit = tm;
+	    // Check whether enough time has elapsed to perform an *additional* iteration after
+	    // those we have already completed.
+	    if ((iter+1)*1000 >= steprate*(tm-lastIterTime) || (tm-lastFrameTime > 500))
+		break;
+	    if (!simRunning)
+		break;
+	} // for (iter = 1; ; iter++)
+	lastIterTime = lit;
+	if (delayWireProcessing)
+	    calcWireCurrents();
+//	System.out.println((System.currentTimeMillis()-lastFrameTime)/(double) iter);
+    }

@@ -1,0 +1,22 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal 111 94 -129 -94
+TEXT -104 -72 Left 2 Diode Controller
+PIN -128 -32 LEFT 8
+PINATTR PinName Vin
+PINATTR SpiceOrder 1
+PIN 112 -32 RIGHT 8
+PINATTR PinName Vout
+PINATTR SpiceOrder 2
+PIN 112 32 RIGHT 8
+PINATTR PinName status_n
+PINATTR SpiceOrder 3
+PIN 112 64 RIGHT 8
+PINATTR PinName fault_n
+PINATTR SpiceOrder 4
+PIN -16 96 BOTTOM 8
+PINATTR PinName gnd
+PINATTR SpiceOrder 5
+PIN 112 0 RIGHT 8
+PINATTR PinName Vgate
+PINATTR SpiceOrder 6

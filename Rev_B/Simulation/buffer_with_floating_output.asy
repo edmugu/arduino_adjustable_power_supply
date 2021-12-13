@@ -1,0 +1,18 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal 160 80 -32 -112
+PIN -32 -16 LEFT 8
+PINATTR PinName Vunbuffered
+PINATTR SpiceOrder 1
+PIN -32 16 LEFT 8
+PINATTR PinName Output_en
+PINATTR SpiceOrder 2
+PIN 64 80 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 3
+PIN 160 -48 RIGHT 8
+PINATTR PinName Vbuffered
+PINATTR SpiceOrder 4
+PIN -32 -80 LEFT 8
+PINATTR PinName Vin
+PINATTR SpiceOrder 5
