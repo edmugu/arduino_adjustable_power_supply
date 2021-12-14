@@ -14,3 +14,12 @@ I have learned that to do this right you have to use the SPICE tools of the pros
 # Stage 3: Linear Regulator Controller
 
 For the LT1575 one can see two major issues (1) Vout <= Vin - Vth, where Vth is the threshold voltage of the power MOSFET and (2) Vin <= 22 Volts. So If I want to the power supply to at least output 22 Volts I need a MOSFET with low Vth. 
+
+![LT1575 snip from datasheet](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/LT1575.PNG "LT1575 snip")
+
+
+
+
+
+
+
