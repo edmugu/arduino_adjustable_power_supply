@@ -21,5 +21,5 @@ For the LT1575 one can see two major issues (1) Vout <= Vin - Vth, where Vth is 
 
 ## "Heat" measurements
 
-During simulation, it was found that the LT1575 will burn off up to 4 watts on the steady state. 
+During simulation, it was found that the LT1575 will burn off up to 1 watts on the steady state. 
 
