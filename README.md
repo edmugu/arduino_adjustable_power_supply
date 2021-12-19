@@ -12,7 +12,7 @@ permalink: /
 
 ## Abstract
 
-This project is based on the [LT journal's Article from Keith Szolusha](https://github.com/edmugu/arduino_portable_adjustable_power_supply/blob/master/documentation/LTJournal-Bench_Supply.pdf). In the article, he discussed how to design a clean power supply. However, this design is augmented by making it controllable by an Arduino. Use Cases Include motor controller, high power wireless communication, and benchtop supply.
+This project is based on the [LT journal's Article from Keith Szolusha](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/LTJournal-Bench_Supply.pdf). In the article, he discussed how to design a clean power supply. However, this design is augmented by making it controllable by an Arduino. Use Cases Include motor controller, high power wireless communication, and benchtop supply.
 
 
 ## Intro
