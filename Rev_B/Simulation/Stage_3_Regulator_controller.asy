@@ -24,5 +24,5 @@ PIN 192 -208 RIGHT 8
 PINATTR PinName FBX
 PINATTR SpiceOrder 7
 PIN -176 -112 LEFT 8
-PINATTR PinName Sel
+PINATTR PinName refext_n
 PINATTR SpiceOrder 8
