@@ -7,27 +7,35 @@ It simulates the output of the linear regulator output.
 @author: Eduardo Munoz
 @email: edmugu@protonmail.com
 """
+import time
 import pandas as pd
 import matplotlib.pyplot as plt
 
-Ra = 0
-Rb = 10000
+Rtaps = 8
+Vrefext = 3.3
 
-rlist = list(map(lambda x: Rb * x/10.0, range(0, 10)))
+tlist = list(range(0, Rtaps + 1))
+vlist = list(map(lambda x: Vrefext * x / Rtaps, range(1, Rtaps + 1)))
 
-def vout(r, Ra=Ra, Rb=Rb, Vref = 1.25, Iadj=50e-6):
-    R2 = r
-    R1 = Ra + Rb - r
-    #R1 = Ra
-    
-    ans = Vref * (1 + (R2/R1)) + Iadj * R2
+def voutadj(t, v, vint=1.2):
+    ratio = t/Rtaps
+    ans = vint * (1 + ratio) - (ratio * v)
     return ans
 
+def vout(t, vint=1.2):
+    ratio = t/Rtaps
+    ans = vint * (1 + ratio)
+    return ans
 
-vo = []
+for v in vlist:
+    vdata = [("tap", "voutadj", "vout")]
+    for t in tlist:
+        vdata.append((t, voutadj(t, v), vout(t)))
+    df = pd.DataFrame(vdata)
 
-for r in rlist: 
-    vo.append(vout(r))
-    
+    print("\nfor v = %3.5f \n" % v)
+    print(df)
 
-plt.plot(rlist, vo)
+
+
+
