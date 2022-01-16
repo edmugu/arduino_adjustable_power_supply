@@ -23,7 +23,7 @@ During simulation it was found that the gate driver is not directly connected to
 
 ![LT1575 virtual ground](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/LT1575_issue.PNG)
 
-So I will have to use a part not from analog devices. The MIC5156 does have a gate driver capable of going to 1 volts at the gate voltage. 
+So I will have to use a part not from analog devices. The MIC5156 does have a gate driver capable of going down to 1 volts at the gate voltage. Now, there are plenty of MOSFETs with a gate threshold above 1 volts. 
 
 ![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/MIC5156_fix.PNG)
 
