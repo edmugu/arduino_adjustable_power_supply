@@ -10,15 +10,11 @@ permalink: /
 
 ![3d view of pcb file](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/documentation/snippets/3d%20view.PNG "Power Supply")
 
+https://edmugu.github.io/arduino_adjustable_power_supply/
+
 ## Abstract
 
 This project is based on the [LT journal's Article from Keith Szolusha](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/LTJournal-Bench_Supply.pdf). In the article, he discussed how to design a clean power supply. However, this design is augmented by making it controllable by an Arduino. Use Cases Include motor controller, high power wireless communication, and benchtop supply.
-
-
-
-## Disclaimer
-
-I initially was practicing my PCB making skill by testing this "dummy" idea of hooking a 1-amp boost to a 1-amp buck to a 1-amp linear regulator. However, while I was finishing with this "dummy" idea that was not really tested, the hardware team I was part of got laid off and I was rehired a few days later. None the less, during those days I though of just manufacturing this PCB and documenting my hardware debugging skills. So there were plenty of bugs on Rev A. Anyhow I was thankful of these series of events, that made me realize how important is to have "demo" projects you can show your future employer. 
 
 
 
@@ -33,3 +29,6 @@ We will modify each block to fit our needs, making this portable and usable with
 
 The main target battery is a USB power bank. Most USB power banks can deliver 12W @ 5Volts. Hence, this power supply will deliver 10 Watts at its output to accommodate the inefficiencies of the power stages of this design. Since the default use case will power a 50-ohm load, the maximum voltage at the output should be greater than 22.36 Volts to deliver 10 Watts.
 
+## Disclaimer
+
+I initially was practicing my PCB making skill by testing this "dummy" idea of hooking a 1-amp boost to a 1-amp buck to a 1-amp linear regulator. However, while I was finishing with this PCB of a "dummy" idea that was not really tested, the hardware team I was part of got laid off but I was rehired a few days later. None the less, during those days I though of just manufacturing this PCB and documenting my hardware debugging skills. So there were plenty of bugs on Rev A. Anyhow I am thankful of these series of events, that made me realize how important is to have "demo" projects you can show your future employer. 
