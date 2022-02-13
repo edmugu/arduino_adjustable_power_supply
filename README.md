@@ -15,6 +15,14 @@ permalink: /
 This project is based on the [LT journal's Article from Keith Szolusha](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/LTJournal-Bench_Supply.pdf). In the article, he discussed how to design a clean power supply. However, this design is augmented by making it controllable by an Arduino. Use Cases Include motor controller, high power wireless communication, and benchtop supply.
 
 
+
+## Disclaimer
+
+I initially was practicing my PCB making skill by testing this "dummy" idea of hooking a 1-amp boost to a 1-amp buck to a 1-amp linear regulator. However, while I was finishing with this "dummy" idea that was not really tested, the hardware team I was part of got laid off and I was rehired a few days later. None the less, during those days I though of just manufacturing this PCB and documenting my hardware debugging skills. So there were plenty of bugs on Rev A. Anyhow I was thankful of these series of events, that made me realize how important is to have "demo" projects you can show your future employer. 
+
+
+
+
 ## Intro
 
 On the original design by Szolusha, there are four modules. (1) a switching regulator that steps down a 10-40V input to an intermediate voltage that is slightly above the output voltage. (2) Linear regulator that "cleans" the output. (3) The current source sets a reference voltage that is not affected by temperature. Lastly, (4) A current sink that helps the Linear regulator reach low voltages.
