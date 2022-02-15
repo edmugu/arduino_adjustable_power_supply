@@ -19,3 +19,13 @@ At the moment, it seems that 2 inches x 2 inches will be good enough per stage [
 
 
 
+![n-mos](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/n-mos.PNG)
+
+In addition to having a single thermistor circuit, there will be another pair of resistors as reference. That way a differential pair can be made and the measurements will be more accurate. 
+
+
+
+
+
+
+
