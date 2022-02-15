@@ -1,7 +1,7 @@
 ---
 title: Rev. B
 has_children: yes
-nav_order: 0
+nav_order: 4
 has_toc: false
 redirect_to: https://edmugu.github.io/arduino_adjustable_power_supply/Rev.%20B/Jekyll_page/Updates.html
 ---
