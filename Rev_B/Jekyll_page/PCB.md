@@ -15,7 +15,7 @@ At the moment, it seems that 2 inches x 2 inches will be good enough per stage [
 
 
 
-https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-CPX025025015-138-C2-R0/4754010
+## Thermal sensors
 
-https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-HK127-R0/4809539
+
 
