@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Prototype
-nav_order: 4
+nav_order: 3
 parent: Rev. B
 ---
 ## Bread board prototypes. 

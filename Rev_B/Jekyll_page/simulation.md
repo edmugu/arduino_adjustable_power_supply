@@ -1,3 +1,11 @@
+---
+layout: default
+title: PCB
+nav_order: 2
+parent: Rev. B
+
+---
+
 # Intro to the Simulation study 
 
 In short, I have learned that to design a power circuit right; you have to use the SPICE tools of the PROs [i.e., Texas Instruments and Analog Devices]. Their tools will have the proper model for the components they sell and the supporting components they used to test their devices. So their SPICE simulations will be far better than the ones, and average engineers can do by importing models or making pseudo models of the components they plan to use. The following are the simulations "learning nuggets" I have come across with that out the way. 
