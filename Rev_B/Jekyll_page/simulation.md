@@ -1,6 +1,6 @@
 ---
 layout: default
-title: PCB
+title: Simulations
 nav_order: 2
 parent: Rev. B
 
