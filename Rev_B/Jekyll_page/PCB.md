@@ -25,6 +25,16 @@ In addition to having a single thermistor circuit, there will be another pair of
 
 
 
+## Test points
+
+I have been wanting to add proper "high speed" test points that are 50 ohms, so I could hook a high-end scope to the various stages of the design. Since connecting the 50-ohm probe to the voltage rails would overwhelm the controllers/regulators, I used a π-matching circuit. The image below shows such a circuit below. Note that even R48 is not really needed, I left it for "good luck/practice." 
+
+
+
+![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/matching_pi_circuit.PNG)
+
+
+
 
 
 
