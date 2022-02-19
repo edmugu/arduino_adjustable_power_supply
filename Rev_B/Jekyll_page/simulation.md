@@ -33,3 +33,11 @@ So I will have to use a part, not from analog devices. However, the MIC5156 does
 ## Issue Solved #3: Proper Capacitor 
 
 During simulation, I discovered why the Tantalum capacitor is bad for power supplies. The reason is that these capacitors have an "equivalent series resistance" around a few ohms. So one can't draw a few amps without having a significant voltage drop. That is why you should use Aluminum Electrolytic Capacitors since their ESR is in the milliohm range. 
+
+
+
+## Issue Solved #4: Power filter
+
+For the reference voltage, I wanted to pre-clean the ripples from stage 1 to ease the job of the regulator. And I found that active filter #1 was the best choice of the three proposed designs. 
+
+![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/filter_designs.PNG)
