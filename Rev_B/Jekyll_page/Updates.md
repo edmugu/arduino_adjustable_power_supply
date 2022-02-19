@@ -25,5 +25,21 @@ This is something that was not included on Rev. A at all, and it is important.
 
 The minimum voltage output most voltage regulators can output is its internal reference voltage level. So most regulators can't go below 1.2 Volts by themselves. And this bothers me since the reference design from Linear Technologies can be to 0 volts. Then I found this article from Texas Instruments on how to tackle this issue which is [linked here](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/TI_Below_1V2.pdf) 
 
+## (4) Trigger/Soft-starter
+
+The article on point (3), made me want to have an external tap that would Trigger and set the soft-start for the power supply.  From that article, we obtain the formula shown below. 
+$$
+Vout = V_{REFint} * (1+ R_{TOP}/R_{BOT}) - (R_{TOP}/R_{BOT}*V_{REFext})
+$$
+So if we want to shutdown Vout. 
+$$
+V_{REFext} > V_{REFint} *(R_{BOT}/R_{TOP} + 1)
+$$
+
+
+
+
+
+
 
 
