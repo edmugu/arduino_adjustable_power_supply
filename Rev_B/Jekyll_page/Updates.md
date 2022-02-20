@@ -23,22 +23,51 @@ This is something that was not included on Rev. A at all, and it is important.
 
 ## (3) Minimum voltage output
 
-The minimum voltage output most voltage regulators can output is its internal reference voltage level. So most regulators can't go below 1.2 Volts by themselves. And this bothers me since the reference design from Linear Technologies can be to 0 volts. Then I found this article from Texas Instruments on how to tackle this issue which is [linked here](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/TI_Below_1V2.pdf) 
+The minimum voltage output most voltage regulators can output is its internal reference voltage level. So most regulators can't go below 1.2 Volts by themselves. And this bothers me since the reference design from Linear Technologies can be to 0 volts. Then I found this article from Texas Instruments on how to tackle this issue which is [linked here](https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/documentation/TI_Below_1V2.pdf) .  The article derives the equation shown below. 
+$$
+Vout = V_{REFint} * (1+ \frac {R_{TOP}}{R_{BOT}}) - (\frac{R_{TOP}}{R_{BOT}}*V_{REFext})
+$$
+The plan would be to operate Vout normally when Vout > 2.4 Volts. But for Vout < 2.4 the Vrefext would be used to adjust the voltage instead of the resistor ratio. That scenario leads to the following equation: 
+
+
+$$
+Vout = V_{REFint} * 2 - V_{REFext}
+$$
+which practically means that the average of Vout and Vrefext has to be 1.2Volts
+
+
+$$
+\frac{Vout+V_{REFext}}{2} = V_{REFint} = 1.2 [volts]
+$$
+
+
+So if one varies Vref from 0 to 2.4 Volts it will vary Vout from 2.4 to 0 volts. 
+
+
 
 ## (4) Trigger/Soft-starter
 
-The article on point (3), made me want to have an external tap that would Trigger and set the soft-start for the power supply.  From that article, we obtain the formula shown below. 
+To add a trigger and soft start, I wanted to add a tap that would control Vrefext. But to make it easier for the user this tap would take an input between 0 and 1 volt to represent 0% to 100% of the voltage set.  That would leave to the following equation where k is pre-gain on the Vtap. 
+
 $$
-Vout = V_{REFint} * (1+ R_{TOP}/R_{BOT}) - (R_{TOP}/R_{BOT}*V_{REFext})
+Vout = V_{REFint} * (1+ \frac {R_{TOP}}{R_{BOT}}) - (\frac{R_{TOP}}{R_{BOT}}*k*V_{tap})
 $$
-So if we want to shutdown Vout. 
-$$
-V_{REFext} > V_{REFint} *(R_{BOT}/R_{TOP} + 1)
-$$
+So to simplify the equation, 
 
 
 
 
+$$
+Vref*(1 + \frac{R_{TOP}}{R_{BOT}} )= \frac{R_{TOP}}{R_{BOT}} * k
+$$
+if we solve for k
+
+
+
+
+$$
+k = Vref * (\frac{R_{BOT}}{R_{TOP}} + 1)
+$$
 
 
 
