@@ -37,5 +37,8 @@ I have been wanting to add proper "high speed" test points that are 50 ohms, so 
 
 
 
+## Final PDF
 
+https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/Rev_B/Jekyll_page/PCB.pdf
 
+<object data="https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/Rev_B/Jekyll_page/PCB.pdf" width="1000" height="1000" type='application/pdf'></object>
