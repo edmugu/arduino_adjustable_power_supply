@@ -71,4 +71,6 @@ $$
 
 
 
+## (5) Sense ports
 
+Sense ports were added to take into account the voltage drop on the wires. 
