@@ -35,6 +35,14 @@ I have been wanting to add proper "high speed" test points that are 50 ohms, so 
 
 
 
+## Encoders instead of Potentiometers
+
+I have been also wanting to add encoders since they have an unlimited turn count. One for voltage and one for current limit. 
+
+![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/schematics_encoder.PNG)
+
+
+
 
 
 ## Final PDF
