@@ -41,9 +41,13 @@ I have been also wanting to add encoders since they have an unlimited turn count
 
 ![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/schematics_encoder.PNG)
 
+## The first draft of the PCB  
+
+The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice aluminum case that is 21 cm long and 10 cm wide could be the target size after I clean stuff up 
 
 
 
+![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/first_pcb_draft.PNG)
 
 ## Final PDF
 
