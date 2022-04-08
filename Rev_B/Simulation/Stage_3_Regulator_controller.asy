@@ -26,3 +26,6 @@ PINATTR SpiceOrder 7
 PIN -176 -112 LEFT 8
 PINATTR PinName refext_n
 PINATTR SpiceOrder 8
+PIN 192 -144 RIGHT 8
+PINATTR PinName Vinj
+PINATTR SpiceOrder 9
