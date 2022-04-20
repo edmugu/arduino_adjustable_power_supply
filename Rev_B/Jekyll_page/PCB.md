@@ -55,6 +55,16 @@ The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice
 
 
 
+
+
+## Case
+
+The case chosen is  
+
+[Rose case]: https://www.digikey.com/en/products/detail/rose-enclosures/07503012/7802325
+
+  
+
 ## Final PDF
 
 https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/Rev_B/Jekyll_page/PCB.pdf
