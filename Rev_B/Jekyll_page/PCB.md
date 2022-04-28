@@ -61,11 +61,13 @@ The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice
 
 The case chosen is  
 
-[Rose case]: https://www.digikey.com/en/products/detail/rose-enclosures/07503012/7802325
+[linked here]: https://www.digikey.com/en/products/detail/rose-enclosures/07504011/7802327
 
-  
+  The inner dimensions for the PCB are 200.6 mm x 300 mm
 
-## Final PDF
+
+
+## Final PDFs
 
 https://github.com/edmugu/arduino_adjustable_power_supply/blob/master/Rev_B/Jekyll_page/PCB.pdf
 
