@@ -2,3 +2,21 @@ https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-CP
 
 https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-HK127-R0/4809539
 
+
+Region 1: User input and back panel [fan motor?]
+	SD1	U28	GPIO  		User input
+	SD1 	U35 	DISPLAY
+	SD1 	U36 	eeprom
+	SD4 		back panel 
+
+Region 2: Stage 3 digital pots and GPIO 
+	SD2 	U6/U7 	digital pot voltage
+	SD2 	U26/U27	GPIO
+
+Region 3: Stage 3 extras
+	SD3 	U8 	digital pot vref
+	SD3 	U31	digital pot ilimit
+
+Region 4: Panel and front panel
+	SD4 	U23 	dig pot trigger
+	SD4 		front panel
