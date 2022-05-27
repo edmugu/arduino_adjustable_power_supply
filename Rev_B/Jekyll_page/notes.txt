@@ -1,24 +1,97 @@
+board regions
+
+
+     ┌──────────────────────────────────────────────────────────────────────────────────────┐
+     │                                                                                      │
+     │         ┌──────────┐     ┌───────────────────────┐    ┌──────────┐                   │
+     │         │e2        │     │                       │    │          │                   │
+     │         │          │     │                       │    │          │                   │
+     │         │          │     │ Text points           │    │ S2D      │                   │
+     │         │          │     │                       │    │          │                   │
+     │         │          │     │ e10                   │    │          │                   │
+     │         └──────────┘     └───────────────────────┘    └──────────┘                   │
+     │                                                                                      │
+     │                                                                                      │
+     │                                         ┌──────────┐   ┌─────────┐                   │
+     │                                         │          │   │         │                   │
+     │           ┌───────────┐  ┌─────────┐    │          │   │         │                   │
+     │           │           │  │         │    │          │   │         │                   │
+     │           │           │  │         │    │          │   │         │    ┌───────────┐  │
+     │           │           │  │         │    │          │   │         │    │           │  │
+     │           │           │  │         │    │          │   │         │    │           │  │
+     │           │           │  │         │    │          │   │         │    │           │  │
+     │           │           │  │         │    │          │   │         │    │           │  │
+     │           │           │  │         │    │          │   │         │    │ S3F       │  │
+     │           │           │  │         │    │ S2a      │   │ S3a     │    └───────────┘  │
+     │           │           │  │         │    └──────────┘   └─────────┘                   │
+     │           │           │  │         │                                                 │
+     │           │S0A        │  │S1A      │    ┌──────────┐                  ┌───────────┐  │
+     │           └───────────┘  └─────────┘    │          │    ┌─────────┐   │           │  │
+     │                                         │          │    │         │   │           │  │
+     │             ┌──────────────────────┐    │          │    │S3BC     │   │           │  │
+     │             │ E6&9                 │    │          │    │         │   │ E4        │  │
+     │             │                      │    │          │    └─────────┘   └───────────┘  │
+     │             │                      │    │          │                                 │
+     │             │                      │    │          │                                 │
+     │             │                      │    │          │                   ┌────┐        │
+     │             │                      │    │          │    ┌───────────┐  │S3D │        │
+     │             └──────────────────────┘    │ S2B      │    │ S2C       │  │    │        │
+     │                                         └──────────┘    └───────────┘  └────┘        │
+     │                                                                                      │
+     └──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+GPIO regions:
+	backward view of IC
+
+	9:GP1		10:GP2
+	8:GP0		11:GP3
+	7:INT		12:GP4
+	6:RST		13:GP5
+	5:ADD		14:GP6
+	4:SDA		15:GP7
+	3:SCL		16:NC
+	2:NC 		17:NC
+	1:VDD		18:VSS
+
+
+	region 0:
+		E6 UI signals
+	
+	region 1: 
+		e2 temp sense
+		e10 voltage sense 
+		s2d Feedback select
+
+I2C regions
+
+	Region 0: back panel [fan motor?]
+		SD0 		back panel 
+		
+	Region 1: User input and 
+		SD1	U28	GPIO  		User input
+		SD1 	U35 	DISPLAY
+		SD1 	U36 	eeprom
+
+	Region 2: Stage 3 digital pots and GPIO 
+		SD2 	U6/U7 	digital pot voltage
+		SD2 	U26/U27	GPIO
+
+	Region 3: Stage 3 extras
+		SD3 	U8 	digital pot vref
+		SD3 	U31	digital pot ilimit
+
+	Region 4: Stage 3 extras and front panel
+		SD4 	U23 	dig pot trigger
+		SD4 		front panel
+		
+		
+GPIO extender regions
+
+
+		
 https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-CPX025025015-138-C2-R0/4754010
 
 https://www.digikey.com/en/products/detail/advanced-thermal-solutions-inc/ATS-HK127-R0/4809539
-
-
-Regoin 0: back panel [fan motor?]
-	SD0 		back panel 
-	
-Region 1: User input and 
-	SD1	U28	GPIO  		User input
-	SD1 	U35 	DISPLAY
-	SD1 	U36 	eeprom
-
-Region 2: Stage 3 digital pots and GPIO 
-	SD2 	U6/U7 	digital pot voltage
-	SD2 	U26/U27	GPIO
-
-Region 3: Stage 3 extras
-	SD3 	U8 	digital pot vref
-	SD3 	U31	digital pot ilimit
-
-Region 4: Stage 3 extras and front panel
-	SD4 	U23 	dig pot trigger
-	SD4 		front panel
