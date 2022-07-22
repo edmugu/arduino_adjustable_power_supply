@@ -1,7 +1,7 @@
 Version 4
 SymbolType BLOCK
-RECTANGLE Normal -176 -272 192 81
-TEXT -81 -239 Left 2 Boost_controller
+RECTANGLE Normal 192 -336 -175 81
+TEXT -81 -314 Left 2 Boost_controller
 PIN -176 -48 LEFT 8
 PINATTR PinName Vin
 PINATTR SpiceOrder 1
@@ -26,3 +26,9 @@ PINATTR SpiceOrder 7
 PIN 192 -208 RIGHT 8
 PINATTR PinName FBX
 PINATTR SpiceOrder 8
+PIN 192 -240 RIGHT 8
+PINATTR PinName Va
+PINATTR SpiceOrder 9
+PIN 192 -272 RIGHT 8
+PINATTR PinName Vb
+PINATTR SpiceOrder 10
