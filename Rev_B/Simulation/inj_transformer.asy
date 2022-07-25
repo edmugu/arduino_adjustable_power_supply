@@ -2,10 +2,10 @@ Version 4
 SymbolType BLOCK
 RECTANGLE Normal 96 0 -64 -64
 PIN -64 -48 LEFT 8
-PINATTR PinName Vtop
+PINATTR PinName Vinj
 PINATTR SpiceOrder 1
 PIN -64 -16 LEFT 8
-PINATTR PinName Vbot
+PINATTR PinName Vout
 PINATTR SpiceOrder 2
 PIN 96 -48 RIGHT 8
 PINATTR PinName Osc
