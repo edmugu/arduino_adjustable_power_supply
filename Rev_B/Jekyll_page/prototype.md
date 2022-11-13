@@ -2,7 +2,7 @@
 layout: default
 title: Prototype
 nav_order: 3
-parent: Rev. B
+parent: Rev B0
 ---
 ## Bread board prototypes. 
 I started to do some sanity checks on my bread board before I designed the PCB. And even thought I could not run them at high power [as shown below]. It did revealed some of the issues on the design I did not catched on the simulation phase. 

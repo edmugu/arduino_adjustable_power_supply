@@ -2,7 +2,7 @@
 layout: default
 title: Rev. B Updates
 nav_order: 1
-parent: Rev. B
+parent: Rev B0
 ---
 
 # Simulation Updates

@@ -2,7 +2,7 @@
 layout: default
 title: PCB
 nav_order: 4
-parent: Rev. B
+parent: Rev B0
 ---
 
 # PCB
