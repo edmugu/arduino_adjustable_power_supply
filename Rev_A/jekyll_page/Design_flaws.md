@@ -2,7 +2,7 @@
 title: Design Flaws
 has_children: no
 nav_order: 7
-parent: Rev. A
+parent: Rev A0
 ---
 
 

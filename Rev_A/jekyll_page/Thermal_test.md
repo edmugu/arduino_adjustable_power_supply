@@ -2,7 +2,7 @@
 title: Thermal_test
 has_children: no
 nav_order: 6
-parent: Rev. A
+parent: Rev A0
 ---
 This was an initial thermal test outputing ~1 Watt. 
 
