@@ -7,19 +7,19 @@ parent: Rev B0
 
 # Simulation Updates
 
-For this revision, there have been more simulations for all the subcircuits. And to guarantee real-life performance, I decided to use LTspice, the simulator from "Analog Devices"/"Linear Technologies." They already have proper models for their device portfolio, so it would not be so hard to use this for this project. 
+For this revision, there have been more simulations for all the subcircuits. Moreover, to guarantee real-life performance, I decided to use LTspice, the simulator from "Analog Devices"/"Linear Technologies." They already have proper models for their device portfolio, so it would be easy to use this for this project. 
 
 # Hardware Updates
 
 ## (1) Regulators vs. Controllers
 
-After debugging Rev. A, I noted that at the moment, there was no IC sold in Digi key that could output over >= 2 amps **with the same package**.  That is when I realized that voltage controllers are more upgradeable than voltage regulators. The reason is that a voltage regulator is a voltage controller WITH a power transistor and current sense mechanism. So if you want to upgrade your voltage controller power supply to handle more power, you have to update the power transistor and current sense mechanism. And if you want to upgrade a voltage regulator, you hope there is an IC with the same package that meets your requirements. 
+After debugging Rev. A, I noted that at the moment, there was no IC sold in Digi key that could output over >= 2 amps **with the same package**. That is when I realized that voltage controllers are more upgradeable than voltage regulators. The reason is that a voltage regulator is a voltage controller WITH a power transistor and current sense mechanism. So if you want to upgrade your voltage controller power supply to handle more power, you just update the power transistor and current sense mechanism. Moreover, if you want to upgrade a voltage regulator, you hope there is an IC with the same package that meets your requirements. 
 
-Also, while designing Rev A, I did not realize that the final linear voltage regular used **LM317** is very inefficient. It requires at least a 3-volts difference between the input and the output. That is when I can with the **MIC5157** voltage controller. 
+Also, while designing Rev A, I realized that the final linear voltage regulator that used an **LM317** could be more efficient. Since it requires at least a 3-volts difference between the input and the output. And voltage controllers can have a smaller voltage drop between their input and output
 
 ## (2) Reverse Voltage Protection
 
-This is something that was not included on Rev. A at all, and it is important. 
+This is something that was not included in Rev. A at all, and it is important. 
 
 ## (3) Minimum voltage output
 

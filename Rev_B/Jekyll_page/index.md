@@ -7,5 +7,5 @@ redirect_to: https://edmugu.github.io/arduino_adjustable_power_supply/Rev.%20B/J
 ---
 
 
-This is my second attempt at my power supply, and I corrected the issues described on "design flaws" and "debugging" pages of rev. A
+This is my second attempt at my power supply, and I corrected the issues described on the "design flaws" and "debugging" pages of rev. A
 

@@ -7,11 +7,8 @@ parent: Rev B0
 
 # PCB
 
-Before I pick any case I wanted to "modularize" each of the stages to have an idea of how much space I needed. Also, to get better temperature readings of the MOSFET it seems that having two MOSFETS in "parallel" would distribute the heat propagated. And a thermal resistor could be placed in between, with some thermal paste, that way the temperature readings would be more accurate. 
-
-
-
-At the moment, it seems that 2 inches x 2 inches will be good enough per stage [not counting heat sink area]. So I will probably need a case 10 inches x 4 inches. 
+Before I picked any case, I wanted to "modularize" each stage to know how much space I needed. Also, to get better temperature readings of the MOSFET, it seems that having two MOSFETS in "parallel" would distribute the heat propagated. And a thermal resistor could be placed in between, with some thermal paste; that way, the temperature readings would be more accurate. 
+Currently, 2 inches x 2 inches will be good enough per stage [not counting the heat sink area]. So I will probably need a case 10 inches x 4 inches. 
 
 
 
@@ -21,13 +18,13 @@ At the moment, it seems that 2 inches x 2 inches will be good enough per stage [
 
 ![n-mos](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/n-mos.PNG)
 
-In addition to having a single thermistor circuit, there will be another pair of resistors as reference. That way a differential pair can be made and the measurements will be more accurate. 
+In addition to having a single thermistor circuit, there will be another pair of resistors as a reference. That way, a differential pair can be made, and the measurements will be more accurate. 
 
 
 
 ## Test points
 
-I have been wanting to add proper "high speed" test points that are 50 ohms, so I could hook a high-end scope to the various stages of the design. Since connecting the 50-ohm probe to the voltage rails would overwhelm the controllers/regulators, I used a π-matching circuit. The image below shows such a circuit below. Note that even R48 is not really needed, I left it for "good luck/practice." 
+I have wanted to add proper "high speed" test points that are 50 ohms, so I could hook a high-end scope to the various design stages. Since connecting the 50-ohm probe to the voltage rails would overwhelm the controllers/regulators, I used a π-matching circuit. The image below shows such a circuit below. Note that even R48 is not needed; I left it for "good luck/practice." 
 
 
 
@@ -37,13 +34,13 @@ I have been wanting to add proper "high speed" test points that are 50 ohms, so 
 
 ## Encoders instead of Potentiometers
 
-I have been also wanting to add encoders since they have an unlimited turn count. One for voltage and one for current limit. 
+I have also been wanting to add encoders since they have an unlimited turn count—one for voltage and one for current limit. 
 
 ![](https://raw.githubusercontent.com/edmugu/arduino_adjustable_power_supply/master/Rev_B/Jekyll_page/snipits/schematics_encoder.PNG)
 
 ## The first draft of the PCB  
 
-The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice aluminum case that is 21 cm long and 10 cm wide could be the target size after I clean stuff up 
+The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice aluminum case that is 21 cm long and 10 cm wide could be the target size after I clean stuff up. 
 
 ### Front
 
@@ -59,11 +56,9 @@ The first loose draft of the PCB seems to be 37cm long and 26 cm wide. So a nice
 
 ## Case
 
-The case chosen is  
+The case chosen is [linked here](https://www.digikey.com/en/products/detail/rose-enclosures/07504011/7802327)
 
-[linked here]: https://www.digikey.com/en/products/detail/rose-enclosures/07504011/7802327
-
-  The inner dimensions for the PCB are 200.6 mm x 300 mm
+ The inner dimensions for the PCB are 200.6 mm x 300 mm
 
 
 
